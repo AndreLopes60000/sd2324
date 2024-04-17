@@ -16,7 +16,9 @@ public class UsersControler implements Users{
 
     private static UsersRepository usersRepository = UsersRepositoryImplementation.getInstance();
 
-    public UsersControler(){}
+    public UsersControler(){
+        discovery.equals(null);
+    }
 
     @Override
     public Result<String> createUser(User user) {

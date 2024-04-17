@@ -1,7 +1,7 @@
 package tukano.resources.rest;
 
+import tukano.helpers.Result;	
 import jakarta.ws.rs.core.Response.Status;
-import tukano.helpers.Result;
 import jakarta.ws.rs.WebApplicationException;
 
 public class RESTResource {
