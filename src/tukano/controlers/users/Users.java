@@ -1,8 +1,9 @@
-package tukano.api.java;
+package tukano.controlers.users;
 
 import java.util.List;
 
 import tukano.api.User;
+import tukano.api.java.Result;
 
 public interface Users {
 	

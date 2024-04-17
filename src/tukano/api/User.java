@@ -1,10 +1,13 @@
 package tukano.api;
 
+import jakarta.persistence.*;
+
 public class User {
 	
+	@Id
+	private String userId;
 	private String pwd;
 	private String email;
-	private String userId;
 	private String displayName;
 
 	public User() {}

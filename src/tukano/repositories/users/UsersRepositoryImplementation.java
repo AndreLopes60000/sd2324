@@ -1,16 +1,13 @@
 package tukano.repositories.users;
 
-import java.util.Map;
 import java.util.List;
 import tukano.api.User;
-import java.util.HashMap;
-import java.util.LinkedList;
+import tukano.helpers.Hibernate;
 
 public class UsersRepositoryImplementation implements UsersRepository{
 
     private static UsersRepository singleton;
 
-    private final Map<String, User> users = new HashMap<>();
 
     public static synchronized UsersRepository getInstance(){
         if (singleton == null){
@@ -21,20 +18,19 @@ public class UsersRepositoryImplementation implements UsersRepository{
 
     @Override
     public String createUser(User user) {
-        if(users.putIfAbsent(user.getUserId(), user) != null){
-            return null;
-        }
+        if(this.getUser(user.getUserId()) == null)
+            Hibernate.getInstance().persist(user);
         return user.getUserId();
     }
 
     @Override
     public User getUser(String userId, String pwd) {
-        return users.get(userId);
+        return this.getUser(userId);
     }
 
     @Override
     public User updateUser(String userId, String pwd, User user) {
-        User userToModify = users.get(userId);
+        User userToModify = this.getUser(userId);
         String userPwd = user.getPwd();
         String userEmail = user.getEmail();
         String userName = user.getDisplayName();
@@ -46,24 +42,27 @@ public class UsersRepositoryImplementation implements UsersRepository{
         if(userEmail != null)
             userToModify.setEmail(userEmail);
 
+        Hibernate.getInstance().update(userToModify);
+
         return userToModify;
     }
 
     @Override
     public User deleteUser(String userId, String pwd) {
-        return users.remove(userId);
+        User userToRemove = this.getUser(userId);
+        Hibernate.getInstance().delete(userToRemove);
+        return userToRemove;
     }
 
     @Override
     public List<User> searchUsers(String pattern) {
-        List<User> usersFound = new LinkedList<>();
-        for(User user : users.values()){
-            if(user.getUserId().toUpperCase().contains(pattern.toUpperCase())){
-                User thisUser = new User(user.getUserId(), "", user.getEmail(), user.getDisplayName());
-                usersFound.add(thisUser);
-            }
-        }
-        return usersFound;
+        return Hibernate.getInstance().jpql("SELECT new User(u.userId, '', u.email, u.displayName) FROM User u WHERE LOWER(u.userId) LIKE '%"+pattern.toLowerCase()+"%'", User.class);
     }
-    
+
+    private User getUser(String userId){
+        List<User> users = Hibernate.getInstance().sql("SELECT * FROM User u WHERE u.userId = "+userId+"", User.class);
+        if (users.isEmpty())
+            return null;
+        return users.get(0);
+    }
 }
