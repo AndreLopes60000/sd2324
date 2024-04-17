@@ -19,12 +19,11 @@ public interface UsersRepository {
 	/**
 	 * Obtains the information on the user identified by userId
 	 * @param userId - the userId of the user
-	 * @param pwd  - the password of the user
 	 * @return OK and the user object, if the userId exists and password matches the existing password; 
 	 *         FORBIDDEN - if the password is incorrect; 
 	 *         NOT_FOUND - if no user exists with the provided userId
 	 */
-	User getUser(String userId, String pwd);
+	User getUser(String userId);
 	
 	/**
 	 * Modifies the information of a user. Value of null, in any field of the user argument, means the field will remain as unchanged 
@@ -37,7 +36,7 @@ public interface UsersRepository {
 	 *         NOT_FOUND - if no user exists with the provided userId 
 	 *         BAD_REQUEST - otherwise.
 	 */
-	User updateUser(String userId, String pwd, User user);
+	User updateUser(String userId, User user);
 	
 	/**
 	 * Deletes the user identified by userId
@@ -49,7 +48,7 @@ public interface UsersRepository {
 	 *         NOT_FOUND if no user exists with the provided name
 	 *         BAD_REQUEST otherwise
 	 */
-	User deleteUser(String userId, String pwd);
+	User deleteUser(String userId);
 	
 	/**
 	 * Returns the list of users for which the pattern is a substring of the userId, case-insensitive. 

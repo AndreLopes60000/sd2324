@@ -1,14 +1,30 @@
 package tukano.api;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 public class User {
 	
+	//TODO maybe there is a need to add a list of liked shorts to the user
+
 	@Id
 	private String userId;
 	private String pwd;
 	private String email;
 	private String displayName;
+
+	@ManyToMany
+    @JoinTable(
+        name = "following",
+        joinColumns = @JoinColumn(name = "userId"),
+        inverseJoinColumns = @JoinColumn(name = "followedUserId")
+    )
+    private List<User> follows;
+
+    @ManyToMany(mappedBy = "follows")
+    private List<User> followers;
 
 	public User() {}
 	
@@ -17,6 +33,8 @@ public class User {
 		this.email = email;
 		this.userId = userId;
 		this.displayName = displayName;
+		this.follows = new LinkedList<>();
+		this.followers = new LinkedList<>();
 	}
 
 	public String getUserId() {

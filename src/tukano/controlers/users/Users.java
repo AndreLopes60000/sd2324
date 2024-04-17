@@ -25,6 +25,7 @@ public interface Users {
 	 * @return OK and the user object, if the userId exists and password matches the existing password; 
 	 *         FORBIDDEN - if the password is incorrect; 
 	 *         NOT_FOUND - if no user exists with the provided userId
+	 * 		   BAD_REQUEST - otherwise.
 	 */
 	Result<User> getUser(String userId, String pwd);
 	

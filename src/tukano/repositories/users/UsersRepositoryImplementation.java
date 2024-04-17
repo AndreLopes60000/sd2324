@@ -24,12 +24,12 @@ public class UsersRepositoryImplementation implements UsersRepository{
     }
 
     @Override
-    public User getUser(String userId, String pwd) {
-        return this.getUser(userId);
+    public User getUser(String userId) {
+        return this.getDBUser(userId);
     }
 
     @Override
-    public User updateUser(String userId, String pwd, User user) {
+    public User updateUser(String userId, User user) {
         User userToModify = this.getUser(userId);
         String userPwd = user.getPwd();
         String userEmail = user.getEmail();
@@ -48,7 +48,7 @@ public class UsersRepositoryImplementation implements UsersRepository{
     }
 
     @Override
-    public User deleteUser(String userId, String pwd) {
+    public User deleteUser(String userId) {
         User userToRemove = this.getUser(userId);
         Hibernate.getInstance().delete(userToRemove);
         return userToRemove;
@@ -59,7 +59,7 @@ public class UsersRepositoryImplementation implements UsersRepository{
         return Hibernate.getInstance().jpql("SELECT new User(u.userId, '', u.email, u.displayName) FROM User u WHERE LOWER(u.userId) LIKE '%"+pattern.toLowerCase()+"%'", User.class);
     }
 
-    private User getUser(String userId){
+    private User getDBUser(String userId){
         List<User> users = Hibernate.getInstance().sql("SELECT * FROM User u WHERE u.userId = "+userId+"", User.class);
         if (users.isEmpty())
             return null;
