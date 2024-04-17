@@ -3,8 +3,8 @@ package tukano.controlers.users;
 import java.util.List;
 import java.util.logging.Logger;
 import tukano.api.User;
-import tukano.api.java.Result;
 import tukano.helpers.Discovery;
+import tukano.helpers.Result;
 import tukano.repositories.users.*;
 import tukano.resources.rest.RESTUsersResource;
 
@@ -16,9 +16,7 @@ public class UsersControler implements Users{
 
     private static UsersRepository usersRepository = UsersRepositoryImplementation.getInstance();
 
-    public UsersControler(){
-        discovery.equals(null);
-    }
+    public UsersControler(){}
 
     @Override
     public Result<String> createUser(User user) {

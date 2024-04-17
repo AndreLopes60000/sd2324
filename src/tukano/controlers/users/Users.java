@@ -3,7 +3,7 @@ package tukano.controlers.users;
 import java.util.List;
 
 import tukano.api.User;
-import tukano.api.java.Result;
+import tukano.helpers.Result;
 
 public interface Users {
 	
