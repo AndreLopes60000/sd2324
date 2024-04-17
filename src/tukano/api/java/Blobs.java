@@ -43,7 +43,7 @@ public interface Blobs {
 	 * @param blobId the id of the blob
 	 * @param sink - the consumer of the chunks of data
 	 * @return (OK,), if the blob exists;
-	 *		   NOT_FOsUND, if no blob matches the provided blobId
+	 *		   NOT_FOUND, if no blob matches the provided blobId
 	 */
 	default Result<Void> downloadToSink(String blobId, Consumer<byte[]> sink) {
 		var res = download(blobId);
