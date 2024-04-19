@@ -2,8 +2,6 @@ package tukano.helpers;
 
 public class Constants {
 
-    public static final String BLOB_SERVER_URI_FMT = "%s:%s";
-
     public static final String SERVER_REST_ADDRESS_FMT = "http://%s:%s/rest";
 
     public static final String REST = "/rest";
@@ -11,6 +9,8 @@ public class Constants {
     public static final String USERS_SERVICE = "users";
 
     public static final String SHORTS_SERVICE = "feeds";
+
+    public static final String BLOBS_SERVICE = "blobs";
 
     public static final String USERS_EXTRA_ARGS = "USERS_EXTRA_ARGS";
 
@@ -22,15 +22,15 @@ public class Constants {
 
     public static final String USERS_SERVER_PORT = "8080";
 
-    /*
-    public static int base;
+    
+    public static int numBlobs = 0;
 
-    public static void setBase(int b) {
-        base = b;
+    public static void addNumBlobs() {
+        numBlobs++;
     }
 
-    public static int getBase() {
-        return base;
+    public static int getNumBlobs() {
+        return numBlobs;
     }
-    */
+    
 }

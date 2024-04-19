@@ -1,29 +1,16 @@
-package tukano.api.java;
-
+package tukano.repositories.shorts;
 
 import java.util.List;
-
 import tukano.api.Short;
-import tukano.helpers.Result;
 
-/**
- * 
- * Interface for the Shorts service.
- * 
- * This service allows existing users to create or delete short videos. 
- * Users can follow other users to gain access to their short videos.
- * User can add or remove likes to short videos.
- * 
- * @author smd
- *
- */
-public interface Shorts {
+public interface ShortsRepository {
+    
 	
 	String NAME = "shorts";
 	
 	/**
 	 * Creates a new short, generating its unique identifier. 
-	 * The result short will include the blob storage location where the media should be uploaded.
+	 * The short will include the blob storage location where the media should be uploaded.
 	 * 
 	 * @param userId - the owner of the new short
 	 * @param password - the password of owner of the new short
@@ -32,7 +19,7 @@ public interface Shorts {
 	 * FORBIDDEN, if the password is not correct;
 	 * BAD_REQUEST, otherwise.
 	 */
-	Result<Short> createShort(String userId, String password);
+	Short createShort(String userId, String password);
 
 	/**
 	 * Deletes a given Short.
@@ -42,8 +29,7 @@ public interface Shorts {
 	 * 	NOT_FOUND if shortId does not match an existing short
 	 * 	FORBIDDEN, if the password is not correct;
 	 */
-	Result<Void> deleteShort(String shortId, String password);
-	
+	Void deleteShort(String shortId, String password);
 	
 	/**
 	 * Retrieves a given Short.
@@ -52,8 +38,7 @@ public interface Shorts {
 	 * @return (OK,Short), 
 	 * 	NOT_FOUND if shortId does not match an existing short
 	 */
-	Result<Short> getShort(String shortId);
-	
+	Short getShort(String shortId);
 	
 	/**
 	 * Retrieves the list of identifiers of the shorts created by the given user.
@@ -61,7 +46,7 @@ public interface Shorts {
 	 * @param userId the user that owns the requested shorts
 	 * @return (OK, List<String>|empty list) or NOT_FOUND if the user does not exist
 	 */
-	Result<List<String>> getShorts( String userId );
+	List<String> getShorts( String userId );
 	
 	/**
 	 * Causes a user to follow the shorts of another user.
@@ -76,7 +61,7 @@ public interface Shorts {
 	 * 	NOT_FOUND if any of the users does not exist
 	 *  FORBIDDEN if the password is incorrect
 	 */
-	Result<Void> follow(String userId1, String userId2, boolean isFollowing, String password);	
+	Void follow(String userId1, String userId2, boolean isFollowing, String password);	
 
 	/**
 	 * Retrieves the list of users following a given user
@@ -86,7 +71,8 @@ public interface Shorts {
 	 * NOT_FOUND if the user does not exists
 	 * FORBIDDEN if the password is incorrect
 	 */
-	Result<List<String>> followers(String userId, String password);
+	List<String> followers(String userId, String password);
+
 	/**
 	 * Adds or removes a like to a short
 	 * 
@@ -99,8 +85,7 @@ public interface Shorts {
 	 *  FORBIDDEN if the password of the user is incorrect
 	 *  BAD_REQUEST, otherwise
 	 */
-	Result<Void> like(String shortId, String userId, boolean isLiked, String password);
-	
+	Void like(String shortId, String userId, boolean isLiked, String password);
 
 	/**
 	 * Returns all the likes of a given short
@@ -111,8 +96,7 @@ public interface Shorts {
 	 * NOT_FOUND if there is no Short with the given shortId
 	 * FORBIDDEN if the password is incorrect
 	 */
-	Result<List<String>> likes(String shortId, String password);
-
+	List<String> likes(String shortId, String password);
 
 	/**
 	 * Returns the feed of the user, sorted by age. The feed is the list of shorts made by
@@ -124,5 +108,6 @@ public interface Shorts {
 	 * 	NOT_FOUND if the user does not exists
 	 *  FORBIDDEN if the password is incorrect
 	 */
-	Result<List<String>> getFeed(String userId, String password);
+	List<String> getFeed(String userId, String password);
+    
 }

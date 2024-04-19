@@ -26,6 +26,8 @@ public class User {
     @ManyToMany(mappedBy = "follows")
     private List<User> followers;
 
+	private List<String> likedShorts;
+
 	public User() {}
 	
 	public User(String userId, String pwd, String email, String displayName) {
@@ -35,6 +37,7 @@ public class User {
 		this.displayName = displayName;
 		this.follows = new LinkedList<>();
 		this.followers = new LinkedList<>();
+		this.likedShorts = new LinkedList<>();
 	}
 
 	public String getUserId() {

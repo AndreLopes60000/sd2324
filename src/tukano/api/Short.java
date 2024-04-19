@@ -1,5 +1,8 @@
 package tukano.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -21,6 +24,7 @@ public class Short {
 	String blobUrl;
 	long timestamp;
 	int totalLikes;
+	List<String> usersLiked;
 
 	public Short() {}
 	
@@ -31,6 +35,7 @@ public class Short {
 		this.blobUrl = blobUrl;
 		this.timestamp = timestamp;
 		this.totalLikes = totalLikes;
+		this.usersLiked = new ArrayList<>();
 	}
 
 	public Short(String shortId, String ownerId, String blobUrl) {

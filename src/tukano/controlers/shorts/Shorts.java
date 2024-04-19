@@ -1,33 +1,25 @@
-package tukano.api.rest;
+package tukano.controlers.shorts;
+
 
 import java.util.List;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 import tukano.api.Short;
+import tukano.helpers.Result;
 
-@Path(RestShorts.PATH)
-public interface RestShorts {
-	String PATH = "/shorts";
+/**
+ * 
+ * Interface for the Shorts service.
+ * 
+ * This service allows existing users to create or delete short videos. 
+ * Users can follow other users to gain access to their short videos.
+ * User can add or remove likes to short videos.
+ * 
+ * @author smd
+ *
+ */
+public interface Shorts {
 	
-	String USER_ID = "userId";
-	String USER_ID1 = "userId1";
-	String USER_ID2 = "userId2";
-	String SHORT_ID = "shortId";
-	
-	String PWD = "pwd";
-	String FEED = "/feed";
-
-	String LIKES = "/likes";
-	String SHORTS = "/shorts";
-	String FOLLOWERS = "/followers";
+	String NAME = "shorts";
 	
 	/**
 	 * Creates a new short, generating its unique identifier. 
@@ -40,10 +32,7 @@ public interface RestShorts {
 	 * FORBIDDEN, if the password is not correct;
 	 * BAD_REQUEST, otherwise.
 	 */
-	@POST
-	@Path("/{" + USER_ID + "}")
-	@Produces(MediaType.APPLICATION_JSON)
-	Short createShort(@PathParam(USER_ID) String userId, @QueryParam(PWD) String password);
+	Result<Short> createShort(String userId, String password);
 
 	/**
 	 * Deletes a given Short.
@@ -53,10 +42,8 @@ public interface RestShorts {
 	 * 	NOT_FOUND if shortId does not match an existing short
 	 * 	FORBIDDEN, if the password is not correct;
 	 */
-	@DELETE
-	@Path("/{" + SHORT_ID + "}")
-	void deleteShort(@PathParam(SHORT_ID) String shortId, @QueryParam(PWD) String password);
-
+	Result<Void> deleteShort(String shortId, String password);
+	
 	/**
 	 * Retrieves a given Short.
 	 * 
@@ -64,22 +51,16 @@ public interface RestShorts {
 	 * @return (OK,Short), 
 	 * 	NOT_FOUND if shortId does not match an existing short
 	 */
-	@GET
-	@Path("/{" + SHORT_ID + "}" )
-	@Produces(MediaType.APPLICATION_JSON)
-	Short getShort(@PathParam(SHORT_ID) String shortId);
-
+	Result<Short> getShort(String shortId);
+	
 	/**
 	 * Retrieves the list of identifiers of the shorts created by the given user.
 	 * 
 	 * @param userId the user that owns the requested shorts
 	 * @return (OK, List<String>|empty list) or NOT_FOUND if the user does not exist
 	 */
-	@GET
-	@Path("/{" + USER_ID + "}" + SHORTS )
-	@Produces(MediaType.APPLICATION_JSON)
-	List<String> getShorts(@PathParam(USER_ID) String userId);
-
+	Result<List<String>> getShorts( String userId );
+	
 	/**
 	 * Causes a user to follow the shorts of another user.
 	 * 
@@ -93,10 +74,7 @@ public interface RestShorts {
 	 * 	NOT_FOUND if any of the users does not exist
 	 *  FORBIDDEN if the password is incorrect
 	 */
-	@POST
-	@Path("/{" + USER_ID1 + "}/{" + USER_ID2 + "}" + FOLLOWERS )
-	@Consumes(MediaType.APPLICATION_JSON)
-	void follow(@PathParam(USER_ID1) String userId1, @PathParam(USER_ID2) String userId2, boolean isFollowing, @QueryParam(PWD) String password);
+	Result<Void> follow(String userId1, String userId2, boolean isFollowing, String password);	
 
 	/**
 	 * Retrieves the list of users following a given user
@@ -106,10 +84,7 @@ public interface RestShorts {
 	 * NOT_FOUND if the user does not exists
 	 * FORBIDDEN if the password is incorrect
 	 */
-	@GET
-	@Path("/{" + USER_ID + "}" + FOLLOWERS )
-	@Produces(MediaType.APPLICATION_JSON)
-	List<String> followers(@PathParam(USER_ID) String userId, @QueryParam(PWD) String password);
+	Result<List<String>> followers(String userId, String password);
 
 	/**
 	 * Adds or removes a like to a short
@@ -123,10 +98,7 @@ public interface RestShorts {
 	 *  FORBIDDEN if the password of the user is incorrect
 	 *  BAD_REQUEST, otherwise
 	 */
-	@POST
-	@Path("/{" + SHORT_ID + "}/{" + USER_ID + "}" + LIKES )
-	@Consumes(MediaType.APPLICATION_JSON)
-	void like(@PathParam(SHORT_ID) String shortId, @PathParam(USER_ID) String userId, boolean isLiked,  @QueryParam(PWD) String password);
+	Result<Void> like(String shortId, String userId, boolean isLiked, String password);
 
 	/**
 	 * Returns all the likes of a given short
@@ -137,10 +109,7 @@ public interface RestShorts {
 	 * NOT_FOUND if there is no Short with the given shortId
 	 * FORBIDDEN if the password is incorrect
 	 */
-	@GET
-	@Path("/{" + SHORT_ID + "}" + LIKES )
-	@Produces(MediaType.APPLICATION_JSON)
-	List<String> likes(@PathParam(SHORT_ID) String shortId, @QueryParam(PWD) String password);
+	Result<List<String>> likes(String shortId, String password);
 
 	/**
 	 * Returns the feed of the user, sorted by age. The feed is the list of shorts made by
@@ -152,8 +121,5 @@ public interface RestShorts {
 	 * 	NOT_FOUND if the user does not exists
 	 *  FORBIDDEN if the password is incorrect
 	 */
-	@GET
-	@Path("/{" + USER_ID + "}" + FEED )
-	@Produces(MediaType.APPLICATION_JSON)
-	List<String> getFeed( @PathParam(USER_ID) String userId, @QueryParam(PWD) String password);
+	Result<List<String>> getFeed(String userId, String password);
 }
