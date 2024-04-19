@@ -3,11 +3,10 @@ package tukano.servers;
 import java.net.URI;
 import java.net.InetAddress;
 import java.util.logging.Logger;
-
 import tukano.helpers.Discovery;
+import static tukano.helpers.Constants.*;
 import tukano.resources.rest.RESTUsersResource;
 import org.glassfish.jersey.server.ResourceConfig;
-import static tukano.helpers.Constants.*;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 
 public class RESTUsersServer {
