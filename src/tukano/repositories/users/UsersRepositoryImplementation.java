@@ -50,6 +50,8 @@ public class UsersRepositoryImplementation implements UsersRepository{
     @Override
     public User deleteUser(String userId) {
         User userToRemove = this.getUser(userId);
+        removeUserFollowers(userToRemove);
+        removeUserFollowings(userToRemove);
         Hibernate.getInstance().delete(userToRemove);
         return userToRemove;
     }
@@ -64,5 +66,21 @@ public class UsersRepositoryImplementation implements UsersRepository{
         if (users.isEmpty())
             return null;
         return users.get(0);
+    }
+
+    private void removeUserFollowers(User user){
+        List<User> userFollowers = user.getFollowers();
+        for (User u : userFollowers) {
+            u.removeFollowing(user);
+            Hibernate.getInstance().update(u);
+        }
+    }
+
+    private void removeUserFollowings(User user){
+        List<User> usersFollowingList = user.getFollowers();
+        for (User u : usersFollowingList) {
+            u.removeFollower(user);
+            Hibernate.getInstance().update(u);
+        }
     }
 }

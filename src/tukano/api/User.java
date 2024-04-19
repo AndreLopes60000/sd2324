@@ -82,4 +82,20 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
 	}
+
+	public List<User> getFollowers(){
+		return followers;
+	}
+
+	public List<User> getFollowing(){
+		return followers;
+	}
+
+	public void removeFollowing(User user){
+		follows.remove(user);
+	}
+	
+	public void removeFollower(User user){
+		followers.remove(user);
+	}
 }
