@@ -3,14 +3,11 @@ package tukano.controlers.users;
 import java.util.List;
 import java.util.logging.Logger;
 import tukano.api.User;
-import tukano.helpers.Discovery;
 import tukano.helpers.Result;
 import tukano.repositories.users.*;
 import tukano.resources.rest.RESTUsersResource;
 
 public class UsersControler implements Users{
-
-    private static final Discovery discovery = Discovery.getInstance();
 
     private static Logger Log = Logger.getLogger(RESTUsersResource.class.getName());
 
