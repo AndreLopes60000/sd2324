@@ -44,50 +44,37 @@ public class ShortsRepositoryImplementation implements ShortsRepository{
 
     @Override
     public Void deleteShort(String shortId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteShort'");
+        Short shortToRemove = getShort(shortId);
+        Hibernate.getInstance().delete(shortToRemove);
+        return null;
     }
 
     @Override
     public Short getShort(String shortId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShort'");
+        return getDBShort(shortId);
     }
 
     @Override
     public List<String> getShorts(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShorts'");
-    }
-
-    @Override
-    public Void follow(String userId1, String userId2, boolean isFollowing, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'follow'");
-    }
-
-    @Override
-    public List<String> followers(String userId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'followers'");
+        return getUserShorts(userId);
     }
 
     @Override
     public Void like(String shortId, String userId, boolean isLiked, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'like'");
+        Short shortToUpdate = getDBShort(shortId);
+        if(isLiked)
+            shortToUpdate.addLike(userId);
+        else
+            shortToUpdate.removeLike(userId);
+
+        Hibernate.getInstance().update(shortToUpdate);
+        return null;
     }
 
     @Override
     public List<String> likes(String shortId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'likes'");
-    }
-
-    @Override
-    public List<String> getFeed(String userId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFeed'");
+        Short wantedShort = getDBShort(shortId);
+        return wantedShort.getLikes();
     }
 
     private String getUniqueShortId(){
@@ -102,15 +89,26 @@ public class ShortsRepositoryImplementation implements ShortsRepository{
      * @return URI
      */
     private URI makeURI(String service){
-        URI uri = discovery.knownUrisOf(service, 1)[0];
+        URI uri = discovery.knownUrisOf(service+getCurrentBlob(), 1)[0];
         return uri;
     }
 
-    public int getCurrentBlob(){
+    private int getCurrentBlob(){
         int numBlobs = getNumBlobs();
         int blobToBeUsed = currentBlobUsed;
         currentBlobUsed = (currentBlobUsed < numBlobs - 1) ? currentBlobUsed + 1 : 0;
         return blobToBeUsed;
+    }
+
+    private Short getDBShort(String shortId){
+        List<Short> shorts = Hibernate.getInstance().sql("SELECT * FROM Short s WHERE s.shortId = "+shortId+"", Short.class);
+        if (shorts.isEmpty())
+            return null;
+        return shorts.get(0);
+    }
+
+    private List<String> getUserShorts(String userId){
+        return Hibernate.getInstance().sql("SELECT shortId FROM Short s WHERE s.ownerId = "+userId+"", String.class);        
     }
     
 }

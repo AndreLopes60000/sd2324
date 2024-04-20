@@ -91,4 +91,18 @@ public class Short {
 	public Short copyWith( long totLikes ) {
 		return new Short( shortId, ownerId, blobUrl, timestamp, (int)totLikes);
 	}
+
+	public void addLike(String userId){
+		usersLiked.add(userId);
+		totalLikes++;
+	}
+
+	public void removeLike(String userId){
+		usersLiked.remove(userId);
+		totalLikes--;
+	}
+
+	public List<String> getLikes(){
+		return usersLiked;
+	}
 }
