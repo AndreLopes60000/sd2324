@@ -49,6 +49,14 @@ public interface ShortsRepository {
 	List<String> getShorts( String userId );
 
 	/**
+	 * Retrieves the list of shorts created by the given user.
+	 * 
+	 * @param userId the user that owns the requested shorts
+	 * @return (OK, List<String>|empty list) or NOT_FOUND if the user does not exist
+	 */
+	List<Short> getObjectShorts( String userId );
+
+	/**
 	 * Adds or removes a like to a short
 	 * 
 	 * @param shortId  - the identifier of the post
@@ -72,5 +80,13 @@ public interface ShortsRepository {
 	 * FORBIDDEN if the password is incorrect
 	 */
 	List<String> likes(String shortId, String password);
+
+	/**
+	 * Updates the likes of a certain short
+	 * 
+	 * @param userId the id of the user that liked the short
+	 * @param shortId the id of the liked short
+	 */
+	void updateShortLikes(String userId, String shortId, boolean isLiked);
     
 }

@@ -127,5 +127,12 @@ public class UsersControler implements Users{
         usersRepository.changeFollowingInfo(userId1, userId2, isFollowing);
         return Result.ok();
     }
+
+
+    @Override
+    public Result<Void> changeLikedShorts(String userId, String shortId, boolean isLiked) {
+        usersRepository.changeLikedShorts(userId, shortId, isLiked);
+       return Result.ok(); 
+    }
     
 }

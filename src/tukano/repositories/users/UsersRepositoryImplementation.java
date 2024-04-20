@@ -105,4 +105,16 @@ public class UsersRepositoryImplementation implements UsersRepository{
         user2.changeFollowers(userId1, isFollowing);
         instance.update(user2);
     }
+
+    @Override
+    public void changeLikedShorts(String userId, String shortId, boolean isLiked) {
+        User userToChange = getDBUser(userId);
+        if(isLiked){
+            userToChange.addLikedShort(shortId);
+        }
+        else{
+            userToChange.removeLikedShort(shortId);
+        }
+        Hibernate.getInstance().update(userToChange);
+    }
 }

@@ -106,6 +106,10 @@ public class User {
 		likedShorts.remove(shortId);
 	}
 
+	public void addLikedShort(String shortId){
+		likedShorts.add(shortId);
+	}
+
 	public void changeFollowing(String userToFollow, boolean isFollowing){
 		if(isFollowing && !follows.contains(userToFollow))
 			follows.add(userToFollow);

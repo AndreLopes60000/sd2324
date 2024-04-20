@@ -110,4 +110,14 @@ public interface RestUsers {
 	@Consumes(MediaType.APPLICATION_JSON)
 	void changeFollowingInfo(@PathParam( USER_ID1 ) String user1, @PathParam( USER_ID2 ) String user2, boolean isFollowing);
 	
+	/**
+	 * Changes info about the users liking or unliking a certain short
+	 * @param user1 the id ogf
+	 * @param user2
+	 * @param isFollowing
+	 */
+	@PUT
+	@Path("/likedshort/{" + USER_ID + "}/{" + SHORT_ID + "}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	void changeLikedShorts(@PathParam( USER_ID ) String userId, @PathParam( SHORT_ID ) String shrotId, boolean isLiked);
 }

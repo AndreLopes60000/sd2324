@@ -79,4 +79,12 @@ public interface Users {
      * @param isFollowing the final state of the relation between the two users
      */
 	Result<Void> changeFollowingInfo(String userId1, String userId2, boolean isFollowing);	
+
+	/**
+     * Changes the info about the likes of a short
+     * @param userId the user liking the short
+     * @param shortId the short liked
+     * @param isLiked if it is to add or remove the like (true if so, and false if not)
+     */
+	Result<Void> changeLikedShorts(String userId, String shortId, boolean isLiked);	
 }

@@ -3,8 +3,12 @@ package tukano.controlers.shorts;
 import static tukano.helpers.Constants.USERS_SERVICE;
 
 import java.net.URI;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import tukano.api.Short;
 import tukano.api.User;
@@ -68,11 +72,10 @@ public class ShortsController implements Shorts{
     public Result<Short> getShort(String shortId) {
         Short shortRetrieved = shortsRepository.getShort(shortId);
         if(shortRetrieved == null){
-            Log.info("No user with given ID.");
+            Log.info("No short with given ID.");
             return Result.error(Result.ErrorCode.NOT_FOUND);
         }
         return Result.ok(shortRetrieved);
-
     }
 
     @Override
@@ -156,31 +159,42 @@ public class ShortsController implements Shorts{
         if(!existingUserResult.isOK()){
             return Result.error(existingUserResult.error());
         }
-        User userLiking = existingUserResult.value();
 
-        if(isLiked){
-            //Criar pedido ao cliente users para adicionar o liked short
-            //falar com o repo de shorts para adicionar
-        }
-        else{
-            //Criar pedido ao cliente users para remover o liked short
-            //falar com o repo de shorts para remover
-        }
-
+        shortsRepository.updateShortLikes(userId, shortId, isLiked);
+        changeUserLikedShorts(userId, shortId, isLiked);
 
         return Result.ok();
     }
 
     @Override
     public Result<List<String>> likes(String shortId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'likes'");
+        var getShortResult = getShort(shortId);
+        if(!getShortResult.isOK()){
+            return Result.error(getShortResult.error());
+        }
+        Short infoShort = getShortResult.value();
+        String ownerId = infoShort.getOwnerId();
+        var userExistsResult = doesUserExist(ownerId, password);
+        if(!userExistsResult.isOK()){
+            return Result.error(userExistsResult.error());
+        }
+
+        return Result.ok(infoShort.getLikes());
     }
 
     @Override
     public Result<List<String>> getFeed(String userId, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFeed'");
+        var userExistsResult = doesUserExist(userId, password);
+        if(!userExistsResult.isOK()){
+            return Result.error(userExistsResult.error());
+        }
+        List<String> followingUsers = userExistsResult.value().getFollowing();
+        List<Short> allShorts = new LinkedList<>();
+        for(String user : followingUsers){
+            allShorts.addAll(shortsRepository.getObjectShorts(user));
+        }
+
+        return Result.ok(getOrderedShorts(allShorts));
     }
 
     //Private Methods
@@ -257,6 +271,26 @@ public class ShortsController implements Shorts{
     private void changeFollowingInfo(String userId1, String userId2, boolean isFollowing){
         usersClient = UsersClientFactory.get(makeURI(USERS_SERVICE));
         usersClient.changeFollowingInfo(userId1, userId2, isFollowing);
+    }
+
+    /**
+     * Changes the info about the likes of a short
+     * @param userId the user liking the short
+     * @param shortId the short liked
+     * @param isLiked if it is to add or remove the like (true if so, and false if not)
+     */
+    private void changeUserLikedShorts(String userId, String shortId, boolean isLiked){
+        usersClient = UsersClientFactory.get(makeURI(USERS_SERVICE));
+        usersClient.changeLikedShorts(userId, shortId, isLiked);
+    }
+
+    /**
+     * Method to order the list of shorts
+     * @param shorts shorts to be listed
+     * @return an ordered list of shorts
+     */
+    private List<String> getOrderedShorts(List<Short> shorts){
+        return shorts.stream().sorted(Comparator.comparing(Short::getTimestamp)).map(Short::getShortId).collect(Collectors.toList());
     }
 
 }

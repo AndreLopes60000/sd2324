@@ -52,5 +52,10 @@ public class RESTUsersResource extends RESTResource implements RestUsers{
     public void changeFollowingInfo(String user1, String user2, boolean isFollowing) {
         super.fromJavaResult(impl.changeFollowingInfo(user1, user2, isFollowing));
     }
+
+    @Override
+    public void changeLikedShorts(String userId, String shrotId, boolean isLiked) {
+        super.fromJavaResult(impl.changeLikedShorts(userId, shrotId, isLiked));
+    }
     
 }

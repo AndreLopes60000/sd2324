@@ -68,6 +68,11 @@ public class RESTUsersClient extends RESTClient implements Users {
 		return super.reTry( () -> client_changeFollowingInfo(userId1, userId2, isFollowing));
 	}
 
+	@Override
+	public Result<Void> changeLikedShorts(String userId, String shortId, boolean isLiked) {
+		return super.reTry( () -> client_changeLikedShorts(userId, shortId, isLiked));
+	}
+
     //Private Methods
 
     /**
@@ -182,6 +187,23 @@ public class RESTUsersClient extends RESTClient implements Users {
 				.put(Entity.entity(isFollowing, MediaType.APPLICATION_JSON));
 		return super.toJavaResult(r, Void.class);
 	}
+
+	/**
+	 * Change the info about liked shorts
+	 * @param userId the id of the user that like or unliked the short
+	 * @param shortId the id of the short in question
+	 * @param isLiked if it is to add or remove the like (true if so, and false if not)
+	 * @return
+	 */
+	private Result<Void> client_changeLikedShorts(String userId, String shortId, boolean isLiked) {
+		Response r = target.path("likedshort").path(userId).path(shortId)
+				.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.put(Entity.entity(isLiked, MediaType.APPLICATION_JSON));
+		return super.toJavaResult(r, Void.class);
+	}
+
+	
 
 	
     

@@ -60,6 +60,11 @@ public class ShortsRepositoryImplementation implements ShortsRepository{
     }
 
     @Override
+    public List<Short> getObjectShorts(String userId) {
+       return Hibernate.getInstance().sql("SELECT * FROM Short s WHERE s.ownerId = "+userId+"", Short.class);
+    }
+
+    @Override
     public Void like(String shortId, String userId, boolean isLiked, String password) {
         Short shortToUpdate = getDBShort(shortId);
         if(isLiked)
@@ -110,5 +115,19 @@ public class ShortsRepositoryImplementation implements ShortsRepository{
     private List<String> getUserShorts(String userId){
         return Hibernate.getInstance().sql("SELECT shortId FROM Short s WHERE s.ownerId = "+userId+"", String.class);        
     }
+
+    @Override
+    public void updateShortLikes(String userId, String shortId, boolean isLiked) {
+        Short likedShort = getDBShort(shortId);
+        if(isLiked){
+            likedShort.addLike(userId);
+        }
+        else{
+            likedShort.removeLike(userId);
+        }
+        Hibernate.getInstance().update(likedShort);
+    }
+
+    
     
 }
