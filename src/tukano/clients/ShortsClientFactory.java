@@ -3,18 +3,16 @@ package tukano.clients;
 import static tukano.helpers.Constants.*;
 
 import java.net.URI;
-import tukano.controlers.users.Users;
-import tukano.clients.rest.RESTUsersClient;
-/**
- * Makes either a REST or GRCP Users client depending on the server's URI information
- */
-public class UsersClientFactory {
+import tukano.controlers.shorts.Shorts;
+import tukano.clients.rest.RESTShortsClient;
 
-    public static Users get(URI serverURI) {
+public class ShortsClientFactory {
+    
+    public static Shorts get(URI serverURI) {
         var uriString = serverURI.toString();
 
         if (uriString.endsWith(REST))
-            return new RESTUsersClient(serverURI);
+            return new RESTShortsClient(serverURI);
         else if (true)
             return null;
         else
