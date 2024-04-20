@@ -47,5 +47,10 @@ public class RESTUsersResource extends RESTResource implements RestUsers{
     public void removeShortFromLikes(String shortId, List<String> userIds) {
         super.fromJavaResult(impl.removeShortFromLikes(userIds, shortId));
     }
+
+    @Override
+    public void changeFollowingInfo(String user1, String user2, boolean isFollowing) {
+        super.fromJavaResult(impl.changeFollowingInfo(user1, user2, isFollowing));
+    }
     
 }

@@ -15,6 +15,8 @@ public interface RestUsers {
 	String QUERY = "query";
 	String USER_ID = "userId";
 	String SHORT_ID = "shortId";
+	String USER_ID1 = "userId1";
+	String USER_ID2 = "userId2";
 	
 	/**
 	 * Creates a new user.
@@ -95,5 +97,17 @@ public interface RestUsers {
 	@Path("/removeLikes/{" + SHORT_ID+ "}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	void removeShortFromLikes(@PathParam( SHORT_ID ) String shortId, List<String> userIds);
+
+
+	 /**
+     * Changes the info about following relations between two users
+     * @param userId1 id of the first user
+     * @param userId2 id of the second user
+     * @param Ok
+     */
+	@PUT
+	@Path("/following/{" + USER_ID1 + "}/{" + USER_ID2 + "}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	void changeFollowingInfo(@PathParam( USER_ID1 ) String user1, @PathParam( USER_ID2 ) String user2, boolean isFollowing);
 	
 }

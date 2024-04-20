@@ -21,10 +21,10 @@ public class User {
         joinColumns = @JoinColumn(name = "userId"),
         inverseJoinColumns = @JoinColumn(name = "followedUserId")
     )
-    private List<User> follows;
+    private List<String> follows;
 
     @ManyToMany(mappedBy = "follows")
-    private List<User> followers;
+    private List<String> followers;
 
 	private List<String> likedShorts;
 
@@ -86,23 +86,39 @@ public class User {
 		return "User [userId=" + userId + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
 	}
 
-	public List<User> getFollowers(){
+	public List<String> getFollowers(){
 		return followers;
 	}
 
-	public List<User> getFollowing(){
+	public List<String> getFollowing(){
 		return followers;
 	}
 
-	public void removeFollowing(User user){
-		follows.remove(user);
+	public void removeFollowing(String userId){
+		follows.remove(userId);
 	}
 	
-	public void removeFollower(User user){
-		followers.remove(user);
+	public void removeFollower(String userId){
+		followers.remove(userId);
 	}
 
 	public void removeLikedShort(String shortId){
 		likedShorts.remove(shortId);
+	}
+
+	public void changeFollowing(String userToFollow, boolean isFollowing){
+		if(isFollowing && !follows.contains(userToFollow))
+			follows.add(userToFollow);
+		else if (!isFollowing)
+			follows.remove(userToFollow);
+
+	}
+
+	public void changeFollowers(String userFollowingMe, boolean isFollowing){
+		if(isFollowing && !followers.contains(userFollowingMe))
+			followers.add(userFollowingMe);
+		else if (!isFollowing)
+			followers.remove(userFollowingMe);
+
 	}
 }

@@ -65,5 +65,14 @@ public interface UsersRepository {
      * @param usersIds list of ids of the users who liked the short
      * @param shortID id of the short to be removed from the lists of the users
      */
-	void removeShortFromLikes(List<String>usersIds, String shortId);		
+	void removeShortFromLikes(List<String>usersIds, String shortId);	
+	
+	/**
+     * Changes the info about following relations between two users
+     * @param userId1 id of the first user
+     * @param userId2 id of the second user
+     * @param isFollowing the final state of the relation between the two users
+     */
+	void changeFollowingInfo(String userId1, String userId2, boolean isFollowing);	
+
 }

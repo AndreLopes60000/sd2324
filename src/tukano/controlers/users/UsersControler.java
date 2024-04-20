@@ -121,5 +121,11 @@ public class UsersControler implements Users{
         usersRepository.removeShortFromLikes(usersIds, shortId);
         return Result.ok();
     }
+
+    @Override
+    public Result<Void> changeFollowingInfo(String userId1, String userId2, boolean isFollowing) {
+        usersRepository.changeFollowingInfo(userId1, userId2, isFollowing);
+        return Result.ok();
+    }
     
 }

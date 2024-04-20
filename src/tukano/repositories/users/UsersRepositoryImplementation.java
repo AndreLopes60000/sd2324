@@ -69,17 +69,19 @@ public class UsersRepositoryImplementation implements UsersRepository{
     }
 
     private void removeUserFollowers(User user){
-        List<User> userFollowers = user.getFollowers();
-        for (User u : userFollowers) {
-            u.removeFollowing(user);
+        List<String> userFollowersIds = user.getFollowers();
+        for (String userId : userFollowersIds) {
+            User u = getDBUser(userId);
+            u.removeFollowing(user.getUserId());
             Hibernate.getInstance().update(u);
         }
     }
 
     private void removeUserFollowings(User user){
-        List<User> usersFollowingList = user.getFollowers();
-        for (User u : usersFollowingList) {
-            u.removeFollower(user);
+        List<String> usersFollowingList = user.getFollowers();
+        for (String userId : usersFollowingList) {
+            User u = getDBUser(userId);
+            u.removeFollower(user.getUserId());
             Hibernate.getInstance().update(u);
         }
     }
@@ -91,5 +93,16 @@ public class UsersRepositoryImplementation implements UsersRepository{
             user.removeLikedShort(shortId);
             Hibernate.getInstance().update(user);
         }
+    }
+
+    @Override
+    public void changeFollowingInfo(String userId1, String userId2, boolean isFollowing) {
+        Hibernate instance = Hibernate.getInstance();
+        User user1 = getDBUser(userId1);
+        User user2 = getDBUser(userId2);
+        user1.changeFollowing(userId2, isFollowing);
+        instance.update(user1);
+        user2.changeFollowers(userId1, isFollowing);
+        instance.update(user2);
     }
 }

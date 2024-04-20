@@ -61,6 +61,13 @@ public class RESTUsersClient extends RESTClient implements Users {
 		return super.reTry( () -> client_removeShortFromLikes(usersIds, shortId));
 	}
 
+
+	
+	@Override
+	public Result<Void> changeFollowingInfo(String userId1, String userId2, boolean isFollowing) {
+		return super.reTry( () -> client_changeFollowingInfo(userId1, userId2, isFollowing));
+	}
+
     //Private Methods
 
     /**
@@ -160,6 +167,22 @@ public class RESTUsersClient extends RESTClient implements Users {
 				.put(Entity.entity(usersIds, MediaType.APPLICATION_JSON));
 		return super.toJavaResult(r, Void.class);
 	}
+
+
+	 /**
+     * Changes the info about following relations between two users
+     * @param userId1 id of the first user
+     * @param userId2 id of the second user
+     * @param isFollowing the final state of the relation between the two users
+     */
+	private Result<Void> client_changeFollowingInfo(String userId1, String userId2, boolean isFollowing){
+		Response r = target.path("following").path(userId1).path(userId2)
+				.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.put(Entity.entity(isFollowing, MediaType.APPLICATION_JSON));
+		return super.toJavaResult(r, Void.class);
+	}
+
 	
     
 }
