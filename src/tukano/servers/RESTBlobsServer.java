@@ -27,7 +27,7 @@ public class RESTBlobsServer {
             String address = InetAddress.getLocalHost().getHostAddress();
             addNumBlobs();
             int blobNum = getNumBlobs();
-            String serverAddress = String.format(SERVER_REST_BLOBS_ADDRESS_FMT, address,String.valueOf(blobNum), USERS_REST_SERVER_PORT);
+            String serverAddress = String.format(SERVER_REST_BLOBS_ADDRESS_FMT, address,String.valueOf(blobNum), BLOBS_REST_SERVER_PORT);
             ResourceConfig config = new ResourceConfig();
             config.register(RESTBlobsResource.class);
             JdkHttpServerFactory.createHttpServer( URI.create(serverAddress), config);

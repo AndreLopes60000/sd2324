@@ -26,6 +26,8 @@ public class Constants {
 
     public static final String SHORTS_REST_SERVER_PORT = "8081";
 
+    public static final String BLOBS_REST_SERVER_PORT = "8082";
+
     public static final String BLOBS_DIRECTORY = "tukano.repositories.blobs.blobFiles";
 
     
