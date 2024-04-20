@@ -83,4 +83,13 @@ public class UsersRepositoryImplementation implements UsersRepository{
             Hibernate.getInstance().update(u);
         }
     }
+
+    @Override
+    public void removeShortFromLikes(List<String> usersIds, String shortId) {
+        for(String userId: usersIds){
+            User user = getDBUser(userId);
+            user.removeLikedShort(shortId);
+            Hibernate.getInstance().update(user);
+        }
+    }
 }

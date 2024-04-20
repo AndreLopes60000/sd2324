@@ -59,4 +59,11 @@ public interface UsersRepository {
 	 *         BAD_REQUEST - otherwise.
 	 */
 	List<User> searchUsers(String pattern);	
+
+	/**
+     * Removes the short from the users liked shorts list
+     * @param usersIds list of ids of the users who liked the short
+     * @param shortID id of the short to be removed from the lists of the users
+     */
+	void removeShortFromLikes(List<String>usersIds, String shortId);		
 }

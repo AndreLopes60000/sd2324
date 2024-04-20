@@ -115,5 +115,11 @@ public class UsersControler implements Users{
         }
         return Result.ok(usersRepository.searchUsers(pattern));
     }
+
+    @Override
+    public Result<Void> removeShortFromLikes(List<String> usersIds, String shortId) {
+        usersRepository.removeShortFromLikes(usersIds, shortId);
+        return Result.ok();
+    }
     
 }

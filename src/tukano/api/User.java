@@ -101,4 +101,8 @@ public class User {
 	public void removeFollower(User user){
 		followers.remove(user);
 	}
+
+	public void removeLikedShort(String shortId){
+		likedShorts.remove(shortId);
+	}
 }

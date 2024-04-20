@@ -42,5 +42,10 @@ public class RESTUsersResource extends RESTResource implements RestUsers{
     public List<User> searchUsers(String pattern) {
         return super.fromJavaResult(impl.searchUsers(pattern));
     }
+
+    @Override
+    public void removeShortFromLikes(String shortId, List<String> userIds) {
+        super.fromJavaResult(impl.removeShortFromLikes(userIds, shortId));
+    }
     
 }

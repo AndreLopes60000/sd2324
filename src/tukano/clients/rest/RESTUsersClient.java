@@ -56,6 +56,11 @@ public class RESTUsersClient extends RESTClient implements Users {
         return super.reTry( () -> client_searchUsers(pattern));
     }
 
+	@Override
+	public Result<Void> removeShortFromLikes(List<String> usersIds, String shortId) {
+		return super.reTry( () -> client_removeShortFromLikes(usersIds, shortId));
+	}
+
     //Private Methods
 
     /**
@@ -140,5 +145,21 @@ public class RESTUsersClient extends RESTClient implements Users {
 				.get();
 		return super.toJavaResult(r, new GenericType<List<User>>(){});
 	}
+
+
+	/**
+	 * Removes shortId from list of likedShorts of every user in userIds
+	 * @param shortId - the shortId of the short
+	 * @param userIds - list of ids of the users to be updated
+	 * @return OK 
+	 */
+	private Result<Void> client_removeShortFromLikes(List<String> usersIds, String shortId){
+		Response r = target.path("messages/"+shortId)
+				.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.put(Entity.entity(usersIds, MediaType.APPLICATION_JSON));
+		return super.toJavaResult(r, Void.class);
+	}
+	
     
 }

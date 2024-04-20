@@ -14,6 +14,7 @@ public interface RestUsers {
 	String PWD = "pwd";
 	String QUERY = "query";
 	String USER_ID = "userId";
+	String SHORT_ID = "shortId";
 	
 	/**
 	 * Creates a new user.
@@ -83,4 +84,16 @@ public interface RestUsers {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	List<User> searchUsers(@QueryParam(QUERY) String pattern);	
+
+	/**
+	 * Removes shortId from list of likedShorts of every user in userIds
+	 * @param shortId - the shortId of the short
+	 * @param userIds - list of ids of the users to be updated
+	 * @return OK 
+	 */
+	@PUT
+	@Path("/removeLikes/{" + SHORT_ID+ "}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	void removeShortFromLikes(@PathParam( SHORT_ID ) String shortId, List<String> userIds);
+	
 }
