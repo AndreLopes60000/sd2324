@@ -1,47 +1,56 @@
 package tukano.controlers.blobs;
 
-import static tukano.helpers.Constants.USERS_SERVICE;
-
-import tukano.api.Short;
 import tukano.helpers.Result;
-
-import java.net.URI;
-import java.util.logging.Logger;
-
-
-import tukano.api.User;
-import tukano.clients.UsersClientFactory;
-import tukano.controlers.users.Users;
-import tukano.helpers.Discovery;
-import tukano.repositories.shorts.ShortsRepository;
-import tukano.repositories.shorts.ShortsRepositoryImplementation;
-import tukano.resources.rest.RESTShortsResource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import static tukano.helpers.Constants.*;
+import tukano.repositories.blobs.BlobsRepository;
+import tukano.repositories.blobs.BlobsRepositoryImplementation;
 
 
 public class BlobsController implements Blobs {
 
-    private static final Discovery discovery = Discovery.getInstance();
-
-    private static Logger Log = Logger.getLogger(RESTShortsResource.class.getName());
-
-    private static ShortsRepository shortsRepository = ShortsRepositoryImplementation.getInstance();
-
-    private Users usersClient;
+    private static BlobsRepository blobsRepository = BlobsRepositoryImplementation.getInstance();
 
     public BlobsController(){}
 
     
     @Override
     public Result<Void> upload(String blobId, byte[] bytes) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'upload'");
+        File file = new File(BLOBS_DIRECTORY+blobId);
+
+        // Check if the file exists
+        if (!file.exists()) {
+            return Result.error(Result.ErrorCode.FORBIDDEN);
+        }
+        byte[] oldBytes = new byte[(int) file.length()];
+        try (FileInputStream fis = new FileInputStream(file)) {
+            fis.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(!oldBytes.equals(bytes)){
+            return Result.error(Result.ErrorCode.CONFLICT);
+        }
+        blobsRepository.upload(blobId, bytes);
+        
+        return Result.ok();
+
     }
 
 
     @Override
     public Result<byte[]> download(String blobId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'download'");
+        File file = new File(BLOBS_DIRECTORY+blobId);
+
+        // Check if the file exists
+        if (!file.exists()) {
+            return Result.error(Result.ErrorCode.NOT_FOUND);
+        }
+        
+        return Result.ok(blobsRepository.download(blobId));
+      
     }
 
 

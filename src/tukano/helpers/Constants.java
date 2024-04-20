@@ -4,6 +4,8 @@ public class Constants {
 
     public static final String SERVER_REST_ADDRESS_FMT = "http://%s:%s/rest";
 
+    public static final String SERVER_REST_BLOBS_ADDRESS_FMT = "http://%s%s:%s/rest";
+
     public static final String REST = "/rest";
 
     public static final String USERS_SERVICE = "users";
@@ -23,6 +25,8 @@ public class Constants {
     public static final String USERS_REST_SERVER_PORT = "8080";
 
     public static final String SHORTS_REST_SERVER_PORT = "8081";
+
+    public static final String BLOBS_DIRECTORY = "tukano.repositories.blobs.blobFiles";
 
     
     public static int numBlobs = 0;
