@@ -1,4 +1,4 @@
-package tukano.api.java;
+package tukano.controlers.blobs;
 
 import java.util.function.Consumer;
 

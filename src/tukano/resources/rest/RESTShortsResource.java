@@ -3,10 +3,12 @@ package tukano.resources.rest;
 import java.util.List;
 
 import tukano.api.Short;
+import jakarta.inject.Singleton;
 import tukano.api.rest.RestShorts;
 import tukano.controlers.shorts.Shorts;
 import tukano.controlers.shorts.ShortsController;
 
+@Singleton
 public class RESTShortsResource extends RESTResource implements RestShorts{
 
     private final Shorts impl;

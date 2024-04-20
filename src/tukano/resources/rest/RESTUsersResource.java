@@ -2,8 +2,8 @@ package tukano.resources.rest;
 
 import java.util.List;
 
-import jakarta.inject.Singleton;
 import tukano.api.User;
+import jakarta.inject.Singleton;
 import tukano.api.rest.RestUsers;
 import tukano.controlers.users.Users;
 import tukano.controlers.users.UsersControler;
