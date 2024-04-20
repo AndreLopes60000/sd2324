@@ -24,7 +24,7 @@ public class RESTUsersServer {
 
             String serverURI = USERS_SERVICE;
             String address = InetAddress.getLocalHost().getHostAddress();
-            String serverAddress = String.format(SERVER_REST_ADDRESS_FMT, address, USERS_SERVER_PORT);
+            String serverAddress = String.format(SERVER_REST_ADDRESS_FMT, address, USERS_REST_SERVER_PORT);
             ResourceConfig config = new ResourceConfig();
             config.register(RESTUsersResource.class);
             JdkHttpServerFactory.createHttpServer( URI.create(serverAddress), config);

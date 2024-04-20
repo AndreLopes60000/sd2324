@@ -2,16 +2,15 @@ package tukano.clients.rest;
 
 import java.net.URI;
 import java.util.List;
-
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import tukano.api.User;
-import tukano.api.rest.RestUsers;
-import tukano.controlers.users.Users;
 import tukano.helpers.Result;
+import tukano.api.rest.RestUsers;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.GenericType;
+import tukano.controlers.users.Users;
+import jakarta.ws.rs.client.WebTarget;
 
 public class RESTUsersClient extends RESTClient implements Users {
 

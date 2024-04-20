@@ -20,7 +20,9 @@ public class Constants {
 
     public static final String FEEDS_REST_PORT = "FEEDS_REST_PORT";
 
-    public static final String USERS_SERVER_PORT = "8080";
+    public static final String USERS_REST_SERVER_PORT = "8080";
+
+    public static final String SHORTS_REST_SERVER_PORT = "8081";
 
     
     public static int numBlobs = 0;
